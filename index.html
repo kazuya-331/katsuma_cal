@@ -9,80 +9,105 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="default" />
 <meta name="apple-mobile-web-app-title" content="調味料計算" />
 <meta name="theme-color" content="#f7f5f0" />
-<link rel="apple-touch-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAIAAACyr5FlAAAD2ElEQVR4nO3cMW7UUBRGYQexCbIHmhSsJTUlJRKrQGIJ1JSsg4JlsA4KSyNrMmfs8Xjs9993PlFEEUru2MfPdsaap49ffgzSJe+OHkDtMg4h4xAyDiHjEDIOIeMQMg4h4xAyDiHjEDIOIeMQMg4h4xAyDiHjEDIOIeMQMg4h4xAyDiHjEDIOIeMQMg4h4xAyDiHjEDIOIeMQMg4h4xAyDiHjEHp/9AAH+/P98/X/8Onbz30madBTbx8YN1vDdV210kscdzbxVg+V1I9j8yymaidSOY6HZjFVNZGaceyWxVS9RAreyh5SxoG/93GqxXHsHirWR53TSlM7psYppsjK0VQZQ3vzrFMhjjb3RJtT3SQ+jpb3QcuzLZEdR/tbv/0JrwiOI2W7p8z5VnAcerTUOG46HH/9/Tf+e9w814UuHpFx3FrGxa93lthHXhyry6Dv7Cauj7w4tJuwOOIOvjNZ84fFcavXl+fZ7yx0+FXt/pLiWHfYTWu4p4yLX68QtHh08fT56iZGF69q7/yZEWJWjqADblbKa4mJQ/szjnkbXtVmyYjj8HV4k6vaqcNf0RJdXJBuopPVYipj5dAhjEPIOIQC4oi4dluh/dcVEIeOYhxCxiFkHEK9/xHs9I5rh3/jmtX1ytHIs8fN6jeOpp49blO/cWiWcQj1G0e3T2ksFxDH4z4lZ6tnj9c9ld7+p//UvJVdfoO64bPH9Z46Dlg5brXbDWr5+51qcZTfYXuqFoc2lBFHm9du99zvtPmKzmTEsdzON6ibP5XelIJ3K68vz3u+nVaviZOkTzBu/7m6hSLOKUO904o2lBRHygF3XdCrSIpDOwuLI+iwuyhr/rA4tKe8OLIOvqm4yfPiGAK38pA5c2QcQ9q2zpr2JDUO7SA4jpTDMWXOt4LjGBK2e/sTXpEdx9D21m95tiXi4xha3QdtTnWTCnEM7e2J1uZZJ+kt+yUOf1u/RhajIivHybH7plIZQ704huP2ULEyhnqnlandTjH1shhVjmP00ESqZjGqH8do80RqZzHqJY6TOyvpoYmT7uI4M9tKVzWc6T0OXVHwVlZbefr99cPRM6hRrhxCxiFkHELGIWQcQsYhZBxCxiFkHELGIWQcQsYhZBxCxiFkHELGIWQcQsYhZBxCxiFkHELGIWQcQsYhZBxCxiFkHELGIWQcQsYhZBxCxiFkHELGIWQcQsYhZBxCxiFkHELGIWQcQsYhZBxCxiFkHELGIWQcQsYhZBxCxiFkHELGIWQcQsYhZBxCxiFkHELGIWQcQsYhZBxCxiFkHELGIWQcQsYhZBxCxiH0H4UZ8qnD1fovAAAAAElFTkSuQmCC" />
 <style>
+:root{
+  --bg:#f7f5f0;--surface:#ffffff;--ink:#26211c;--muted:#7c746b;
+  --hair:rgba(38,33,28,.12);--hair2:rgba(38,33,28,.22);--accent:#c4502a;
+}
+@media(prefers-color-scheme:dark){
   :root{
-    --bg:#f7f5f0; --surface:#ffffff; --ink:#26211c; --muted:#7c746b;
-    --hair:rgba(38,33,28,.12); --salt:#2d6a8e; --salt-bg:#e8f0f5;
-    --sweet:#b07219; --sweet-bg:#f8efdf; --accent:#c4502a;
-    --radius:14px;
+    --bg:#1a1816;--surface:#26211c;--ink:#f0ece6;--muted:#9c9088;
+    --hair:rgba(240,236,230,.1);--hair2:rgba(240,236,230,.22);
   }
-  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
-  html,body{margin:0;padding:0;}
-  body{
-    background:var(--bg); color:var(--ink);
-    font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Hiragino Kaku Gothic ProN",sans-serif;
-    line-height:1.6; -webkit-font-smoothing:antialiased;
-    padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
-  }
-  .wrap{max-width:480px;margin:0 auto;padding:18px 18px 48px;}
-  header{padding:14px 2px 22px;}
-  .eyebrow{font-size:12px;letter-spacing:.18em;color:var(--accent);font-weight:600;text-transform:uppercase;}
-  h1{font-size:25px;font-weight:700;margin:4px 0 2px;letter-spacing:-.01em;}
-  .sub{font-size:13px;color:var(--muted);margin:0;}
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html,body{margin:0;padding:0;}
+body{
+  background:var(--bg);color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Hiragino Kaku Gothic ProN",sans-serif;
+  line-height:1.6;-webkit-font-smoothing:antialiased;
+  padding-top:env(safe-area-inset-top);
+  padding-bottom:env(safe-area-inset-bottom);
+  padding-left:env(safe-area-inset-left);
+  padding-right:env(safe-area-inset-right);
+}
+.wrap{max-width:480px;margin:0 auto;padding:20px 18px 56px;}
+header{padding:14px 2px 24px;}
+.eyebrow{font-size:11px;letter-spacing:.2em;color:var(--accent);font-weight:600;text-transform:uppercase;margin-bottom:4px;}
+h1{font-size:24px;font-weight:700;margin:0 0 3px;letter-spacing:-.01em;color:var(--ink);}
+.sub{font-size:13px;color:var(--muted);margin:0;}
 
-  .field{margin-bottom:18px;}
-  label{font-size:13px;color:var(--muted);display:block;margin-bottom:7px;font-weight:500;}
-  input[type=number]{
-    width:100%;font-size:19px;font-weight:600;color:var(--ink);
-    border:1px solid var(--hair);background:var(--surface);border-radius:12px;
-    padding:13px 14px;outline:none;font-family:inherit;
-  }
-  input[type=number]:focus{border-color:var(--salt);box-shadow:0 0 0 3px var(--salt-bg);}
+.field{margin-bottom:10px;}
+label.lbl{font-size:13px;color:var(--muted);display:block;margin-bottom:7px;font-weight:500;}
+input[type=number]{
+  width:100%;font-size:20px;font-weight:600;color:var(--ink);
+  border:1px solid var(--hair2);background:var(--surface);border-radius:12px;
+  padding:13px 14px;outline:none;font-family:inherit;appearance:none;
+}
+input[type=number]:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(196,80,42,.12);}
 
-  .sliders{display:flex;gap:12px;margin-bottom:20px;}
-  .slider-box{flex:1;}
-  .slider-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px;}
-  .slider-head span{font-size:16px;font-weight:700;}
-  input[type=range]{width:100%;-webkit-appearance:none;appearance:none;height:4px;border-radius:2px;background:var(--hair);outline:none;margin:8px 0;}
-  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:var(--surface);border:2px solid var(--salt);cursor:pointer;}
-  #spct::-webkit-slider-thumb{border-color:var(--sweet);}
+.nabe-checks{margin:10px 0 18px;display:flex;flex-direction:column;gap:8px;}
+.nabe-check{display:flex;align-items:center;gap:10px;cursor:pointer;padding:10px 13px;background:var(--surface);border:1px solid var(--hair);border-radius:10px;}
+.nabe-check input[type=checkbox]{width:18px;height:18px;accent-color:var(--accent);cursor:pointer;flex-shrink:0;margin:0;}
+.nabe-check .nabe-label{font-size:14px;color:var(--ink);flex:1;}
+.nabe-check .nabe-weight{font-size:13px;color:var(--muted);}
+.nabe-check.checked{border-color:var(--accent);background:rgba(196,80,42,.05);}
 
-  .presets{display:flex;gap:7px;margin-bottom:20px;}
-  .presets button{flex:1;font-size:12px;font-weight:500;padding:8px 4px;border:1px solid var(--hair);background:var(--surface);border-radius:10px;color:var(--ink);font-family:inherit;cursor:pointer;}
-  .presets button:active{background:var(--salt-bg);}
+.net-weight{
+  background:var(--surface);border:1px solid var(--hair);border-radius:12px;
+  padding:11px 14px;margin-bottom:18px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.net-weight .lbl2{font-size:12px;color:var(--muted);}
+.net-weight .val{font-size:16px;font-weight:700;color:var(--accent);}
 
-  .totals{display:flex;gap:12px;margin-bottom:26px;}
-  .total{flex:1;border-radius:var(--radius);padding:13px 15px;}
-  .total.salt{background:var(--salt-bg);}
-  .total.sweet{background:var(--sweet-bg);}
-  .total .k{font-size:12px;font-weight:600;}
-  .total.salt .k{color:var(--salt);}
-  .total.sweet .k{color:var(--sweet);}
-  .total .v{font-size:22px;font-weight:700;margin-top:2px;}
-  .total.salt .v{color:var(--salt);}
-  .total.sweet .v{color:var(--sweet);}
+.field-dish{margin-bottom:18px;}
+select{
+  width:100%;font-size:16px;font-weight:500;color:var(--ink);
+  border:1px solid var(--hair2);background:var(--surface);border-radius:12px;
+  padding:13px 14px;outline:none;font-family:inherit;appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%237c746b' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 14px center;padding-right:40px;
+}
+select:focus{border-color:var(--accent);}
 
-  .group-title{display:flex;justify-content:space-between;align-items:baseline;margin:0 2px 11px;}
-  .group-title h2{font-size:14px;font-weight:600;margin:0;}
-  .group-title .hint{font-size:11px;color:var(--muted);}
-  .cards{display:flex;flex-direction:column;gap:9px;margin-bottom:26px;}
-  .card{
-    display:flex;align-items:center;gap:11px;background:var(--surface);
-    border:1px solid var(--hair);border-radius:12px;padding:11px 13px;transition:opacity .15s;
-  }
-  .card.off{opacity:.5;}
-  .card .name{flex:1;min-width:0;}
-  .card .name .nm{font-size:14px;font-weight:600;}
-  .card .name .det{font-size:11.5px;color:var(--muted);margin-top:1px;}
-  .card .amt{text-align:right;margin-right:4px;min-width:0;}
-  .card .amt .g{font-size:15px;font-weight:700;}
-  .card .amt .sp{font-size:11px;color:var(--muted);white-space:nowrap;}
-  .card input{width:50px;text-align:center;font-size:15px;font-weight:600;border:1px solid var(--hair);border-radius:9px;padding:7px 2px;font-family:inherit;outline:none;color:var(--ink);background:var(--bg);}
-  .card input:focus{border-color:var(--salt);}
+.formula{
+  background:var(--surface);border:1px solid var(--hair);border-radius:12px;
+  padding:11px 14px;margin-bottom:20px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.formula .lbl2{font-size:12px;color:var(--muted);}
+.formula .val{font-size:15px;font-weight:600;color:var(--ink);}
 
-  .note{font-size:11.5px;color:var(--muted);line-height:1.65;margin:0 2px;padding-top:4px;border-top:1px solid var(--hair);padding-top:14px;}
-  .note b{color:var(--ink);font-weight:600;}
+.section-head{font-size:12px;color:var(--muted);font-weight:600;letter-spacing:.08em;text-transform:uppercase;margin:0 2px 10px;}
+.cards{display:flex;flex-direction:column;gap:9px;margin-bottom:20px;}
+.card{display:flex;align-items:center;justify-content:space-between;border-radius:12px;padding:13px 15px;gap:10px;}
+.card .name{font-size:15px;font-weight:600;}
+.card .sub2{font-size:12px;margin-top:2px;opacity:.75;}
+.card .amt-g{font-size:17px;font-weight:700;text-align:right;}
+.card .amt-sp{font-size:11.5px;text-align:right;margin-top:2px;opacity:.75;}
+
+.note-box{border-left:2px solid var(--accent);padding:10px 12px;border-radius:0 8px 8px 0;background:rgba(196,80,42,.06);}
+.note-box p{font-size:12.5px;color:var(--muted);margin:0;line-height:1.7;}
+
+.c-amber{background:#faeeda;color:#633806;}
+.c-coral{background:#faece7;color:#712b13;}
+.c-blue{background:#e6f1fb;color:#0c447c;}
+.c-gray{background:#f1efe8;color:#444441;}
+.c-teal{background:#e1f5ee;color:#085041;}
+.c-purple{background:#eeedfe;color:#3c3489;}
+.c-pink{background:#fbeaf0;color:#72243e;}
+.c-green{background:#eaf3de;color:#27500a;}
+@media(prefers-color-scheme:dark){
+  .c-amber{background:#412402;color:#fac775;}
+  .c-coral{background:#4a1b0c;color:#f5c4b3;}
+  .c-blue{background:#042c53;color:#b5d4f4;}
+  .c-gray{background:#2c2c2a;color:#d3d1c7;}
+  .c-teal{background:#04342c;color:#9fe1cb;}
+  .c-purple{background:#26215c;color:#cecbf6;}
+  .c-pink{background:#4b1528;color:#f4c0d1;}
+  .c-green{background:#173404;color:#c0dd97;}
+}
 </style>
 </head>
 <body>
@@ -90,111 +115,143 @@
   <header>
     <div class="eyebrow">Logical cooking</div>
     <h1>ロジカル調味料計算</h1>
-    <p class="sub">材料の重さから塩分・甘味を逆算</p>
+    <p class="sub">味付けの種類と材料の量から逆算</p>
   </header>
 
   <div class="field">
-    <label for="weight">材料の総重量 (g)</label>
+    <label class="lbl" for="weight">材料の総量 (g)</label>
     <input type="number" id="weight" value="300" min="0" step="10" inputmode="numeric" />
   </div>
 
-  <div class="sliders">
-    <div class="slider-box">
-      <div class="slider-head"><label style="margin:0;">塩分</label><span id="pct-out">0.6%</span></div>
-      <input type="range" id="pct" min="0" max="1.2" value="0.6" step="0.1" />
-    </div>
-    <div class="slider-box">
-      <div class="slider-head"><label style="margin:0;">甘味(煮物2〜4%、照り焼き系3〜5%)</label><span id="spct-out">2.0%</span></div>
-      <input type="range" id="spct" min="0" max="6" value="2" step="0.5" />
-    </div>
+  <div class="nabe-checks">
+    <label class="nabe-check" id="lbl-large">
+      <input type="checkbox" id="nabe-large" />
+      <span class="nabe-label">内なべ［大］を差し引く</span>
+      <span class="nabe-weight">672 g</span>
+    </label>
+    <label class="nabe-check" id="lbl-small">
+      <input type="checkbox" id="nabe-small" />
+      <span class="nabe-label">内なべ［小］を差し引く</span>
+      <span class="nabe-weight">550 g</span>
+    </label>
   </div>
 
-  <div class="presets">
-    <button data-p="0.6">標準 0.6%</button>
-    <button data-p="0.8">濃いめ 0.8%</button>
-    <button data-p="1.0">汁物 1.0%</button>
+  <div class="net-weight" id="net-row" style="display:none;">
+    <div class="lbl2">差し引き後の正味量</div>
+    <div class="val" id="net-out">— g</div>
   </div>
 
-  <div class="totals">
-    <div class="total salt"><div class="k">塩分量 合計</div><div class="v" id="salt-out">1.8 g</div></div>
-    <div class="total sweet"><div class="k">甘味量 合計</div><div class="v" id="sweet-out">6.0 g</div></div>
+  <div class="field-dish">
+    <label class="lbl" for="dish">味付けの種類</label>
+    <select id="dish"></select>
   </div>
 
-  <div class="group-title"><h2>塩分の調味料</h2><span class="hint">比率で配分</span></div>
-  <div class="cards" id="salt-cards"></div>
+  <div class="formula">
+    <div class="lbl2" id="formula-label">合わせだれ 合計</div>
+    <div class="val" id="total-out">— g</div>
+  </div>
 
-  <div class="group-title"><h2>甘味の調味料</h2><span class="hint">砂糖換算・比率で配分</span></div>
-  <div class="cards" id="sweet-cards"></div>
-
-  <p class="note">
-    塩分は<b>材料重量 × 塩分%</b>、甘味は<b>砂糖換算%</b>で計算。各調味料の右の数字が配分比率（相対値）です。みりんは糖分約43%なので砂糖の約2.3倍量、味ぽんなど製品差が大きいものはラベルの食塩相当量で調整を。
-  </p>
+  <div class="section-head">調味料の量</div>
+  <div class="cards" id="cards"></div>
+  <div class="note-box"><p id="note"></p></div>
 </div>
 
 <script>
-const saltItems=[
-  {name:"塩",saltPct:99,gPerTsp:6,ratio:1},
-  {name:"うす口醤油",saltPct:16,gPerTsp:6,ratio:0},
-  {name:"こいくち醤油",saltPct:14.5,gPerTsp:6,ratio:0},
-  {name:"味噌",saltPct:12,gPerTsp:6,ratio:0},
-  {name:"塩麹",saltPct:13,gPerTsp:6,ratio:0},
-  {name:"味ぽん",saltPct:7.5,gPerTsp:6,ratio:0},
-];
-const sweetItems=[
-  {name:"砂糖",sugarPct:100,gPerTsp:3,ratio:1},
-  {name:"みりん",sugarPct:43,gPerTsp:6,ratio:0},
-  {name:"はちみつ",sugarPct:80,gPerTsp:7,ratio:0},
-];
-const $=id=>document.getElementById(id);
-const weightEl=$("weight"),pctEl=$("pct"),spctEl=$("spct");
+const NABE_LARGE = 672;
+const NABE_SMALL = 550;
 
-function spoonStr(g,gPerTsp){
-  const tsp=g/gPerTsp;
-  if(tsp<=0)return "—";
-  if(tsp>=3)return "大さじ"+(tsp/3).toFixed(1)+" / 小さじ"+tsp.toFixed(1);
+const dishes = {
+  "照り焼き":        {rate:0.15, parts:[["醤油",1,"c-amber",6],["みりん",1,"c-coral",6],["酒",1,"c-blue",5],["砂糖",0.3,"c-gray",3]], note:"材料の15%が合わせだれの目安。醤油:みりん:酒=1:1:1に砂糖少々。仕上げに強火で絡めるとつやが出ます。"},
+  "煮物":            {rate:0.12, parts:[["醤油",1,"c-amber",6],["みりん",1,"c-coral",6],["酒",1,"c-blue",5],["砂糖",0.5,"c-gray",3],["本だし",0.3,"c-green",5]], note:"だし汁で煮るのが前提（材料が浸る量を別途）。本だしを直接加えてもOK。砂糖を先に入れると味がしみ込みやすくなります。"},
+  "生姜焼き":        {rate:0.15, parts:[["醤油",1,"c-amber",6],["みりん",1,"c-coral",6],["酒",1,"c-blue",5],["おろし生姜",0.5,"c-teal",5]], note:"醤油:みりん:酒=1:1:1が基本。生姜はお好みで増減を。漬け込むとより味がなじみます。"},
+  "味噌炒め":        {rate:0.13, parts:[["味噌",2,"c-coral",6],["みりん",1,"c-pink",6],["酒",1,"c-blue",5],["砂糖",0.5,"c-gray",3]], note:"味噌2:みりん1が基本。焦げやすいので中火で手早く炒めて。豆板醤を少量加えると中華風に。"},
+  "きんぴら":        {rate:0.13, parts:[["醤油",1,"c-amber",6],["みりん",1,"c-coral",6],["酒",0.5,"c-blue",5],["砂糖",0.5,"c-gray",3]], note:"仕上げにごま油・唐辛子を少々。水分が飛んでから調味料を加えるとシャキシャキ感が出ます。"},
+  "中華風":          {rate:0.14, parts:[["醤油",1,"c-amber",6],["オイスターソース",1,"c-purple",6],["酒",1,"c-blue",5],["砂糖",0.3,"c-gray",3],["ごま油",0.3,"c-teal",5]], note:"オイスターソースでコクを出す。鶏ガラスープ少々でさらに本格的に。仕上げのごま油は火を止めてから。"},
+  "酒みりん醤油 1:1:1":{rate:0.15, parts:[["醤油",1,"c-amber",6],["みりん",1,"c-coral",6],["酒",1,"c-blue",5]], note:"万能の黄金比。煮物・照り焼き・丼・漬けだれなど幅広く使える基本の合わせだれ。"},
+  "味噌汁":          {miso:true, note:"材料の総量（水＋具材）の5%が味噌の量。本だしは400mlの水に対して1.6g。"}
+};
+
+const $ = id => document.getElementById(id);
+const weightEl=$("weight"), dishEl=$("dish");
+const nabeLarge=$("nabe-large"), nabeSmall=$("nabe-small");
+const lblLarge=$("lbl-large"), lblSmall=$("lbl-small");
+const netRow=$("net-row"), netOut=$("net-out");
+
+Object.keys(dishes).forEach(k=>{
+  const o=document.createElement("option");
+  o.value=k; o.textContent=k; dishEl.appendChild(o);
+});
+
+function getNetWeight(){
+  const raw = parseFloat(weightEl.value)||0;
+  let sub = 0;
+  if(nabeLarge.checked) sub += NABE_LARGE;
+  if(nabeSmall.checked) sub += NABE_SMALL;
+  return Math.max(0, raw - sub);
+}
+
+function spoonStr(g, gPerTsp){
+  const tsp = g / gPerTsp;
+  if(tsp <= 0) return "—";
+  if(tsp < 0.4) return "少々";
+  if(tsp >= 3) return "大さじ"+(tsp/3).toFixed(1)+" / 小さじ"+tsp.toFixed(1);
   return "小さじ"+tsp.toFixed(1);
 }
-function renderGroup(items,container,total,key){
-  const tot=items.reduce((a,s)=>a+(s.ratio||0),0);
-  container.innerHTML="";
-  items.forEach((s,i)=>{
-    const share=tot>0?s.ratio/tot:0;
-    const need=total*share;
-    const conc=s[key];
-    const grams=conc>0?need*100/conc:0;
-    const active=s.ratio>0;
-    const card=document.createElement("div");
-    card.className="card"+(active?"":" off");
-    card.innerHTML=
-      '<div class="name"><div class="nm">'+s.name+'</div>'+
-      '<div class="det">'+(active?spoonStr(grams,s.gPerTsp):(key==="saltPct"?"塩分":"糖分")+conc+"%")+'</div></div>'+
-      '<div class="amt"><div class="g">'+(active?grams.toFixed(1)+" g":"—")+'</div></div>'+
-      '<input type="number" min="0" step="1" value="'+s.ratio+'" data-i="'+i+'" inputmode="numeric" aria-label="'+s.name+'の比率" />';
-    container.appendChild(card);
-  });
-  container.querySelectorAll("input").forEach(inp=>{
-    inp.addEventListener("input",e=>{items[e.target.dataset.i].ratio=parseFloat(e.target.value)||0;render();});
-  });
-}
-function render(){
-  const w=parseFloat(weightEl.value)||0;
-  const pct=parseFloat(pctEl.value),spct=parseFloat(spctEl.value);
-  $("pct-out").textContent=pct.toFixed(1)+"%";
-  $("spct-out").textContent=spct.toFixed(1)+"%";
-  const salt=w*pct/100,sweet=w*spct/100;
-  $("salt-out").textContent=salt.toFixed(1)+" g";
-  $("sweet-out").textContent=sweet.toFixed(1)+" g";
-  renderGroup(saltItems,$("salt-cards"),salt,"saltPct");
-  renderGroup(sweetItems,$("sweet-cards"),sweet,"sugarPct");
-}
-weightEl.addEventListener("input",render);
-pctEl.addEventListener("input",render);
-spctEl.addEventListener("input",render);
-$$=document.querySelectorAll(".presets button").forEach(b=>{
-  b.addEventListener("click",()=>{pctEl.value=b.dataset.p;render();});
-});
-render();
 
+function mkCard(name, sub2, g, gPerTsp, color){
+  const el = document.createElement("div");
+  el.className = "card "+color;
+  el.innerHTML =
+    '<div><div class="name">'+name+'</div>'+(sub2?'<div class="sub2">'+sub2+'</div>':'')+'</div>'+
+    '<div><div class="amt-g">'+g.toFixed(1)+' g</div><div class="amt-sp">'+spoonStr(g,gPerTsp)+'</div></div>';
+  return el;
+}
+
+function updateNabeStyle(){
+  lblLarge.classList.toggle("checked", nabeLarge.checked);
+  lblSmall.classList.toggle("checked", nabeSmall.checked);
+  const anyChecked = nabeLarge.checked || nabeSmall.checked;
+  netRow.style.display = anyChecked ? "flex" : "none";
+}
+
+function render(){
+  updateNabeStyle();
+  const w = getNetWeight();
+  const anyChecked = nabeLarge.checked || nabeSmall.checked;
+  if(anyChecked) netOut.textContent = w.toFixed(0)+" g";
+
+  const d = dishes[dishEl.value];
+  const cards = $("cards");
+  cards.innerHTML = "";
+
+  if(d.miso){
+    // 味噌: 材料総量の5%
+    const misoG = w * 0.05;
+    // 本だし: 400mlに対して1.6g → 水の量はmlで近似(水1ml≒1g)なので水量=総量から近似
+    // 水の量は表示しないが、計算には総量をそのまま水量とみなす
+    const dashiG = w / 400 * 1.6;
+    $("formula-label").textContent="味噌汁 計算結果";
+    $("total-out").textContent="材料 "+w.toFixed(0)+" g";
+    cards.appendChild(mkCard("味噌","材料総量の5%",misoG,6,"c-coral"));
+    cards.appendChild(mkCard("本だし","400mlに対して1.6g",dashiG,5,"c-green"));
+  } else {
+    const totalSauce = w * d.rate;
+    $("formula-label").textContent="合わせだれ 合計";
+    $("total-out").textContent=totalSauce.toFixed(0)+" g（材料の"+(d.rate*100).toFixed(0)+"%）";
+    const partSum = d.parts.reduce((a,p)=>a+p[1],0);
+    d.parts.forEach(p=>{
+      const [name,ratio,color,gPerTsp]=p;
+      cards.appendChild(mkCard(name,"",totalSauce*ratio/partSum,gPerTsp,color));
+    });
+  }
+  $("note").textContent = d.note;
+}
+
+nabeLarge.addEventListener("change", render);
+nabeSmall.addEventListener("change", render);
+weightEl.addEventListener("input", render);
+dishEl.addEventListener("change", render);
+render();
 </script>
 </body>
 </html>
