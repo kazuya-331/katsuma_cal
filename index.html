@@ -36,7 +36,6 @@ header{padding:14px 2px 24px;}
 .eyebrow{font-size:11px;letter-spacing:.2em;color:var(--accent);font-weight:600;text-transform:uppercase;margin-bottom:4px;}
 h1{font-size:24px;font-weight:700;margin:0 0 3px;letter-spacing:-.01em;color:var(--ink);}
 .sub{font-size:13px;color:var(--muted);margin:0;}
-
 .field{margin-bottom:10px;}
 label.lbl{font-size:13px;color:var(--muted);display:block;margin-bottom:7px;font-weight:500;}
 input[type=number]{
@@ -45,14 +44,12 @@ input[type=number]{
   padding:13px 14px;outline:none;font-family:inherit;appearance:none;
 }
 input[type=number]:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(196,80,42,.12);}
-
 .nabe-checks{margin:10px 0 18px;display:flex;flex-direction:column;gap:8px;}
 .nabe-check{display:flex;align-items:center;gap:10px;cursor:pointer;padding:10px 13px;background:var(--surface);border:1px solid var(--hair);border-radius:10px;}
 .nabe-check input[type=checkbox]{width:18px;height:18px;accent-color:var(--accent);cursor:pointer;flex-shrink:0;margin:0;}
 .nabe-check .nabe-label{font-size:14px;color:var(--ink);flex:1;}
 .nabe-check .nabe-weight{font-size:13px;color:var(--muted);}
 .nabe-check.checked{border-color:var(--accent);background:rgba(196,80,42,.05);}
-
 .net-weight{
   background:var(--surface);border:1px solid var(--hair);border-radius:12px;
   padding:11px 14px;margin-bottom:18px;
@@ -60,7 +57,6 @@ input[type=number]:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(19
 }
 .net-weight .lbl2{font-size:12px;color:var(--muted);}
 .net-weight .val{font-size:16px;font-weight:700;color:var(--accent);}
-
 .field-dish{margin-bottom:18px;}
 select{
   width:100%;font-size:16px;font-weight:500;color:var(--ink);
@@ -70,7 +66,6 @@ select{
   background-repeat:no-repeat;background-position:right 14px center;padding-right:40px;
 }
 select:focus{border-color:var(--accent);}
-
 .formula{
   background:var(--surface);border:1px solid var(--hair);border-radius:12px;
   padding:11px 14px;margin-bottom:20px;
@@ -78,7 +73,6 @@ select:focus{border-color:var(--accent);}
 }
 .formula .lbl2{font-size:12px;color:var(--muted);}
 .formula .val{font-size:15px;font-weight:600;color:var(--ink);}
-
 .section-head{font-size:12px;color:var(--muted);font-weight:600;letter-spacing:.08em;text-transform:uppercase;margin:0 2px 10px;}
 .cards{display:flex;flex-direction:column;gap:9px;margin-bottom:20px;}
 .card{display:flex;align-items:center;justify-content:space-between;border-radius:12px;padding:13px 15px;gap:10px;}
@@ -87,9 +81,21 @@ select:focus{border-color:var(--accent);}
 .card .amt-g{font-size:17px;font-weight:700;text-align:right;}
 .card .amt-sp{font-size:11.5px;text-align:right;margin-top:2px;opacity:.75;}
 
+.stats-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-bottom:20px;}
+.stat-card{background:var(--surface);border:1px solid var(--hair);border-radius:12px;padding:13px 14px;}
+.stat-card .stat-label{font-size:11px;color:var(--muted);font-weight:600;letter-spacing:.06em;text-transform:uppercase;margin-bottom:5px;}
+.stat-card .stat-value{font-size:22px;font-weight:700;color:var(--ink);line-height:1.1;}
+.stat-card .stat-unit{font-size:13px;font-weight:400;color:var(--muted);margin-left:2px;}
+.stat-card .stat-sub{font-size:11.5px;color:var(--muted);margin-top:4px;}
+.stat-card.salt .stat-value{color:#185fa5;}
+.stat-card.sweet .stat-value{color:#854f0b;}
+@media(prefers-color-scheme:dark){
+  .stat-card.salt .stat-value{color:#85b7eb;}
+  .stat-card.sweet .stat-value{color:#ef9f27;}
+}
+
 .note-box{border-left:2px solid var(--accent);padding:10px 12px;border-radius:0 8px 8px 0;background:rgba(196,80,42,.06);}
 .note-box p{font-size:12.5px;color:var(--muted);margin:0;line-height:1.7;}
-
 .c-amber{background:#faeeda;color:#633806;}
 .c-coral{background:#faece7;color:#712b13;}
 .c-blue{background:#e6f1fb;color:#0c447c;}
@@ -153,6 +159,10 @@ select:focus{border-color:var(--accent);}
 
   <div class="section-head">調味料の量</div>
   <div class="cards" id="cards"></div>
+
+  <div class="section-head">栄養バランス目安</div>
+  <div class="stats-grid" id="stats-grid"></div>
+
   <div class="note-box"><p id="note"></p></div>
 </div>
 
@@ -160,15 +170,60 @@ select:focus{border-color:var(--accent);}
 const NABE_LARGE = 672;
 const NABE_SMALL = 550;
 
+// 各調味料の塩分%・糖分%（100gあたり）
+const SEASONING_PROPS = {
+  "醤油":           {salt:14.5, sugar:0},
+  "みりん":         {salt:0,    sugar:43},
+  "酒":             {salt:0,    sugar:3},
+  "砂糖":           {salt:0,    sugar:100},
+  "本だし":         {salt:40,   sugar:0},
+  "おろし生姜":     {salt:0,    sugar:2},
+  "味噌":           {salt:12,   sugar:8},
+  "オイスターソース":{salt:7,    sugar:18},
+  "ごま油":         {salt:0,    sugar:0},
+  "豆板醤":         {salt:10,   sugar:0},
+};
+
 const dishes = {
-  "照り焼き":        {rate:0.15, parts:[["醤油",1,"c-amber",6],["みりん",1,"c-coral",6],["酒",1,"c-blue",5],["砂糖",0.3,"c-gray",3]], note:"材料の15%が合わせだれの目安。醤油:みりん:酒=1:1:1に砂糖少々。仕上げに強火で絡めるとつやが出ます。"},
-  "煮物":            {rate:0.12, parts:[["醤油",1,"c-amber",6],["みりん",1,"c-coral",6],["酒",1,"c-blue",5],["砂糖",0.5,"c-gray",3],["本だし",0.3,"c-green",5]], note:"だし汁で煮るのが前提（材料が浸る量を別途）。本だしを直接加えてもOK。砂糖を先に入れると味がしみ込みやすくなります。"},
-  "生姜焼き":        {rate:0.15, parts:[["醤油",1,"c-amber",6],["みりん",1,"c-coral",6],["酒",1,"c-blue",5],["おろし生姜",0.5,"c-teal",5]], note:"醤油:みりん:酒=1:1:1が基本。生姜はお好みで増減を。漬け込むとより味がなじみます。"},
-  "味噌炒め":        {rate:0.13, parts:[["味噌",2,"c-coral",6],["みりん",1,"c-pink",6],["酒",1,"c-blue",5],["砂糖",0.5,"c-gray",3]], note:"味噌2:みりん1が基本。焦げやすいので中火で手早く炒めて。豆板醤を少量加えると中華風に。"},
-  "きんぴら":        {rate:0.13, parts:[["醤油",1,"c-amber",6],["みりん",1,"c-coral",6],["酒",0.5,"c-blue",5],["砂糖",0.5,"c-gray",3]], note:"仕上げにごま油・唐辛子を少々。水分が飛んでから調味料を加えるとシャキシャキ感が出ます。"},
-  "中華風":          {rate:0.14, parts:[["醤油",1,"c-amber",6],["オイスターソース",1,"c-purple",6],["酒",1,"c-blue",5],["砂糖",0.3,"c-gray",3],["ごま油",0.3,"c-teal",5]], note:"オイスターソースでコクを出す。鶏ガラスープ少々でさらに本格的に。仕上げのごま油は火を止めてから。"},
-  "酒みりん醤油 1:1:1":{rate:0.15, parts:[["醤油",1,"c-amber",6],["みりん",1,"c-coral",6],["酒",1,"c-blue",5]], note:"万能の黄金比。煮物・照り焼き・丼・漬けだれなど幅広く使える基本の合わせだれ。"},
-  "味噌汁":          {miso:true, note:"材料の総量（水＋具材）の5%が味噌の量。本だしは400mlの水に対して1.6g。"}
+  "照り焼き": {
+    rate:0.15,
+    parts:[["醤油",1,"c-amber",6],["みりん",1,"c-coral",6],["酒",1,"c-blue",5],["砂糖",0.3,"c-gray",3]],
+    note:"材料の15%が合わせだれの目安。醤油:みりん:酒=1:1:1に砂糖少々。仕上げに強火で絡めるとつやが出ます。"
+  },
+  "煮物": {
+    rate:0.12,
+    parts:[["醤油",1,"c-amber",6],["みりん",1,"c-coral",6],["酒",1,"c-blue",5],["砂糖",0.5,"c-gray",3],["本だし",0.3,"c-green",5]],
+    note:"だし汁で煮るのが前提（材料が浸る量を別途）。本だしを直接加えてもOK。砂糖を先に入れると味がしみ込みやすくなります。"
+  },
+  "生姜焼き": {
+    rate:0.15,
+    parts:[["醤油",1,"c-amber",6],["みりん",1,"c-coral",6],["酒",1,"c-blue",5],["おろし生姜",0.5,"c-teal",5]],
+    note:"醤油:みりん:酒=1:1:1が基本。生姜はお好みで増減を。漬け込むとより味がなじみます。"
+  },
+  "味噌炒め": {
+    rate:0.13,
+    parts:[["味噌",2,"c-coral",6],["みりん",1,"c-pink",6],["酒",1,"c-blue",5],["砂糖",0.5,"c-gray",3]],
+    note:"味噌2:みりん1が基本。焦げやすいので中火で手早く炒めて。豆板醤を少量加えると中華風に。"
+  },
+  "きんぴら": {
+    rate:0.13,
+    parts:[["醤油",1,"c-amber",6],["みりん",1,"c-coral",6],["酒",0.5,"c-blue",5],["砂糖",0.5,"c-gray",3]],
+    note:"仕上げにごま油・唐辛子を少々。水分が飛んでから調味料を加えるとシャキシャキ感が出ます。"
+  },
+  "中華風": {
+    rate:0.14,
+    parts:[["醤油",1,"c-amber",6],["オイスターソース",1,"c-purple",6],["酒",1,"c-blue",5],["砂糖",0.3,"c-gray",3],["ごま油",0.3,"c-teal",5]],
+    note:"オイスターソースでコクを出す。鶏ガラスープ少々でさらに本格的に。仕上げのごま油は火を止めてから。"
+  },
+  "酒みりん醤油 1:1:1": {
+    rate:0.15,
+    parts:[["醤油",1,"c-amber",6],["みりん",1,"c-coral",6],["酒",1,"c-blue",5]],
+    note:"万能の黄金比。煮物・照り焼き・丼・漬けだれなど幅広く使える基本の合わせだれ。"
+  },
+  "味噌汁": {
+    miso:true,
+    note:"材料の総量（水＋具材）の5%が味噌の量。本だしは400mlの水に対して1.6g。"
+  }
 };
 
 const $ = id => document.getElementById(id);
@@ -183,74 +238,115 @@ Object.keys(dishes).forEach(k=>{
 });
 
 function getNetWeight(){
-  const raw = parseFloat(weightEl.value)||0;
-  let sub = 0;
-  if(nabeLarge.checked) sub += NABE_LARGE;
-  if(nabeSmall.checked) sub += NABE_SMALL;
-  return Math.max(0, raw - sub);
+  const raw=parseFloat(weightEl.value)||0;
+  let sub=0;
+  if(nabeLarge.checked) sub+=NABE_LARGE;
+  if(nabeSmall.checked) sub+=NABE_SMALL;
+  return Math.max(0, raw-sub);
 }
 
 function spoonStr(g, gPerTsp){
-  const tsp = g / gPerTsp;
-  if(tsp <= 0) return "—";
-  if(tsp < 0.4) return "少々";
-  if(tsp >= 3) return "大さじ"+(tsp/3).toFixed(1)+" / 小さじ"+tsp.toFixed(1);
+  const tsp=g/gPerTsp;
+  if(tsp<=0) return "—";
+  if(tsp<0.4) return "少々";
+  if(tsp>=3) return "大さじ"+(tsp/3).toFixed(1)+" / 小さじ"+tsp.toFixed(1);
   return "小さじ"+tsp.toFixed(1);
 }
 
 function mkCard(name, sub2, g, gPerTsp, color){
-  const el = document.createElement("div");
-  el.className = "card "+color;
-  el.innerHTML =
+  const el=document.createElement("div");
+  el.className="card "+color;
+  el.innerHTML=
     '<div><div class="name">'+name+'</div>'+(sub2?'<div class="sub2">'+sub2+'</div>':'')+'</div>'+
     '<div><div class="amt-g">'+g.toFixed(1)+' g</div><div class="amt-sp">'+spoonStr(g,gPerTsp)+'</div></div>';
   return el;
 }
 
+// 塩分・甘味を計算して返す {saltG, sugarG}
+function calcNutrition(parts, totalSauce, partSum){
+  let saltG=0, sugarG=0;
+  parts.forEach(p=>{
+    const [name,ratio]=p;
+    const g=totalSauce*ratio/partSum;
+    const props=SEASONING_PROPS[name]||{salt:0,sugar:0};
+    saltG  += g*props.salt/100;
+    sugarG += g*props.sugar/100;
+  });
+  return {saltG, sugarG};
+}
+
+function renderStats(saltG, sugarG, netW){
+  const grid=$("stats-grid");
+  grid.innerHTML="";
+  const saltPct = netW>0 ? (saltG/netW*100) : 0;
+  const sugarPct= netW>0 ? (sugarG/netW*100) : 0;
+
+  const s1=document.createElement("div");
+  s1.className="stat-card salt";
+  s1.innerHTML=
+    '<div class="stat-label">塩分濃度</div>'+
+    '<div><span class="stat-value">'+saltPct.toFixed(2)+'</span><span class="stat-unit">%</span></div>'+
+    '<div class="stat-sub">塩分 '+saltG.toFixed(1)+' g（目安 0.6%）</div>';
+
+  const s2=document.createElement("div");
+  s2.className="stat-card sweet";
+  s2.innerHTML=
+    '<div class="stat-label">甘味（砂糖換算）</div>'+
+    '<div><span class="stat-value">'+sugarPct.toFixed(1)+'</span><span class="stat-unit">%</span></div>'+
+    '<div class="stat-sub">糖分 '+sugarG.toFixed(1)+' g</div>';
+
+  grid.appendChild(s1);
+  grid.appendChild(s2);
+}
+
 function updateNabeStyle(){
   lblLarge.classList.toggle("checked", nabeLarge.checked);
   lblSmall.classList.toggle("checked", nabeSmall.checked);
-  const anyChecked = nabeLarge.checked || nabeSmall.checked;
-  netRow.style.display = anyChecked ? "flex" : "none";
+  const anyChecked=nabeLarge.checked||nabeSmall.checked;
+  netRow.style.display=anyChecked?"flex":"none";
 }
 
 function render(){
   updateNabeStyle();
-  const w = getNetWeight();
-  const anyChecked = nabeLarge.checked || nabeSmall.checked;
-  if(anyChecked) netOut.textContent = w.toFixed(0)+" g";
+  const w=getNetWeight();
+  const anyChecked=nabeLarge.checked||nabeSmall.checked;
+  if(anyChecked) netOut.textContent=w.toFixed(0)+" g";
 
-  const d = dishes[dishEl.value];
-  const cards = $("cards");
-  cards.innerHTML = "";
+  const d=dishes[dishEl.value];
+  const cards=$("cards");
+  cards.innerHTML="";
 
   if(d.miso){
-    // 味噌: 材料総量の5%
-    const misoG = w * 0.05;
-    // 本だし: 400mlに対して1.6g → 水の量はmlで近似(水1ml≒1g)なので水量=総量から近似
-    // 水の量は表示しないが、計算には総量をそのまま水量とみなす
-    const dashiG = w / 400 * 1.6;
+    const misoG=w*0.05;
+    const dashiG=w/400*1.6;
     $("formula-label").textContent="味噌汁 計算結果";
     $("total-out").textContent="材料 "+w.toFixed(0)+" g";
     cards.appendChild(mkCard("味噌","材料総量の5%",misoG,6,"c-coral"));
     cards.appendChild(mkCard("本だし","400mlに対して1.6g",dashiG,5,"c-green"));
+
+    // 味噌汁の栄養計算
+    const saltG=misoG*0.12 + dashiG*0.40;
+    const sugarG=misoG*0.08;
+    renderStats(saltG, sugarG, w);
   } else {
-    const totalSauce = w * d.rate;
+    const totalSauce=w*d.rate;
     $("formula-label").textContent="合わせだれ 合計";
     $("total-out").textContent=totalSauce.toFixed(0)+" g（材料の"+(d.rate*100).toFixed(0)+"%）";
-    const partSum = d.parts.reduce((a,p)=>a+p[1],0);
+    const partSum=d.parts.reduce((a,p)=>a+p[1],0);
     d.parts.forEach(p=>{
       const [name,ratio,color,gPerTsp]=p;
       cards.appendChild(mkCard(name,"",totalSauce*ratio/partSum,gPerTsp,color));
     });
+    const {saltG,sugarG}=calcNutrition(d.parts,totalSauce,partSum);
+    renderStats(saltG, sugarG, w);
   }
-  $("note").textContent = d.note;
+  $("note").textContent=d.note;
 }
 
-nabeLarge.addEventListener("change", render);
-nabeSmall.addEventListener("change", render);
-weightEl.addEventListener("input", render);
-dishEl.addEventListener("change", render);
+nabeLarge.addEventListener("change",render);
+nabeSmall.addEventListener("change",render);
+weightEl.addEventListener("input",render);
+dishEl.addEventListener("change",render);
 render();
 </script>
 </body>
