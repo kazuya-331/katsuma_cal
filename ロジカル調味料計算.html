@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no" />
+<title>ロジカル調味料</title>
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+<meta name="apple-mobile-web-app-title" content="調味料計算" />
+<meta name="theme-color" content="#f7f5f0" />
+<link rel="apple-touch-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAIAAACyr5FlAAAD2ElEQVR4nO3cMW7UUBRGYQexCbIHmhSsJTUlJRKrQGIJ1JSsg4JlsA4KSyNrMmfs8Xjs9993PlFEEUru2MfPdsaap49ffgzSJe+OHkDtMg4h4xAyDiHjEDIOIeMQMg4h4xAyDiHjEDIOIeMQMg4h4xAyDiHjEDIOIeMQMg4h4xAyDiHjEDIOIeMQMg4h4xAyDiHjEDIOIeMQMg4h4xAyDiHjEHp/9AAH+/P98/X/8Onbz30madBTbx8YN1vDdV210kscdzbxVg+V1I9j8yymaidSOY6HZjFVNZGaceyWxVS9RAreyh5SxoG/93GqxXHsHirWR53TSlM7psYppsjK0VQZQ3vzrFMhjjb3RJtT3SQ+jpb3QcuzLZEdR/tbv/0JrwiOI2W7p8z5VnAcerTUOG46HH/9/Tf+e9w814UuHpFx3FrGxa93lthHXhyry6Dv7Cauj7w4tJuwOOIOvjNZ84fFcavXl+fZ7yx0+FXt/pLiWHfYTWu4p4yLX68QtHh08fT56iZGF69q7/yZEWJWjqADblbKa4mJQ/szjnkbXtVmyYjj8HV4k6vaqcNf0RJdXJBuopPVYipj5dAhjEPIOIQC4oi4dluh/dcVEIeOYhxCxiFkHEK9/xHs9I5rh3/jmtX1ytHIs8fN6jeOpp49blO/cWiWcQj1G0e3T2ksFxDH4z4lZ6tnj9c9ld7+p//UvJVdfoO64bPH9Z46Dlg5brXbDWr5+51qcZTfYXuqFoc2lBFHm9du99zvtPmKzmTEsdzON6ibP5XelIJ3K68vz3u+nVaviZOkTzBu/7m6hSLOKUO904o2lBRHygF3XdCrSIpDOwuLI+iwuyhr/rA4tKe8OLIOvqm4yfPiGAK38pA5c2QcQ9q2zpr2JDUO7SA4jpTDMWXOt4LjGBK2e/sTXpEdx9D21m95tiXi4xha3QdtTnWTCnEM7e2J1uZZJ+kt+yUOf1u/RhajIivHybH7plIZQ704huP2ULEyhnqnlandTjH1shhVjmP00ESqZjGqH8do80RqZzHqJY6TOyvpoYmT7uI4M9tKVzWc6T0OXVHwVlZbefr99cPRM6hRrhxCxiFkHELGIWQcQsYhZBxCxiFkHELGIWQcQsYhZBxCxiFkHELGIWQcQsYhZBxCxiFkHELGIWQcQsYhZBxCxiFkHELGIWQcQsYhZBxCxiFkHELGIWQcQsYhZBxCxiFkHELGIWQcQsYhZBxCxiFkHELGIWQcQsYhZBxCxiFkHELGIWQcQsYhZBxCxiFkHELGIWQcQsYhZBxCxiFkHELGIWQcQsYhZBxCxiH0H4UZ8qnD1fovAAAAAElFTkSuQmCC" />
+<style>
+  :root{
+    --bg:#f7f5f0; --surface:#ffffff; --ink:#26211c; --muted:#7c746b;
+    --hair:rgba(38,33,28,.12); --salt:#2d6a8e; --salt-bg:#e8f0f5;
+    --sweet:#b07219; --sweet-bg:#f8efdf; --accent:#c4502a;
+    --radius:14px;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--bg); color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Hiragino Kaku Gothic ProN",sans-serif;
+    line-height:1.6; -webkit-font-smoothing:antialiased;
+    padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+  }
+  .wrap{max-width:480px;margin:0 auto;padding:18px 18px 48px;}
+  header{padding:14px 2px 22px;}
+  .eyebrow{font-size:12px;letter-spacing:.18em;color:var(--accent);font-weight:600;text-transform:uppercase;}
+  h1{font-size:25px;font-weight:700;margin:4px 0 2px;letter-spacing:-.01em;}
+  .sub{font-size:13px;color:var(--muted);margin:0;}
+
+  .field{margin-bottom:18px;}
+  label{font-size:13px;color:var(--muted);display:block;margin-bottom:7px;font-weight:500;}
+  input[type=number]{
+    width:100%;font-size:19px;font-weight:600;color:var(--ink);
+    border:1px solid var(--hair);background:var(--surface);border-radius:12px;
+    padding:13px 14px;outline:none;font-family:inherit;
+  }
+  input[type=number]:focus{border-color:var(--salt);box-shadow:0 0 0 3px var(--salt-bg);}
+
+  .sliders{display:flex;gap:12px;margin-bottom:20px;}
+  .slider-box{flex:1;}
+  .slider-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px;}
+  .slider-head span{font-size:16px;font-weight:700;}
+  input[type=range]{width:100%;-webkit-appearance:none;appearance:none;height:4px;border-radius:2px;background:var(--hair);outline:none;margin:8px 0;}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:var(--surface);border:2px solid var(--salt);cursor:pointer;}
+  #spct::-webkit-slider-thumb{border-color:var(--sweet);}
+
+  .presets{display:flex;gap:7px;margin-bottom:20px;}
+  .presets button{flex:1;font-size:12px;font-weight:500;padding:8px 4px;border:1px solid var(--hair);background:var(--surface);border-radius:10px;color:var(--ink);font-family:inherit;cursor:pointer;}
+  .presets button:active{background:var(--salt-bg);}
+
+  .totals{display:flex;gap:12px;margin-bottom:26px;}
+  .total{flex:1;border-radius:var(--radius);padding:13px 15px;}
+  .total.salt{background:var(--salt-bg);}
+  .total.sweet{background:var(--sweet-bg);}
+  .total .k{font-size:12px;font-weight:600;}
+  .total.salt .k{color:var(--salt);}
+  .total.sweet .k{color:var(--sweet);}
+  .total .v{font-size:22px;font-weight:700;margin-top:2px;}
+  .total.salt .v{color:var(--salt);}
+  .total.sweet .v{color:var(--sweet);}
+
+  .group-title{display:flex;justify-content:space-between;align-items:baseline;margin:0 2px 11px;}
+  .group-title h2{font-size:14px;font-weight:600;margin:0;}
+  .group-title .hint{font-size:11px;color:var(--muted);}
+  .cards{display:flex;flex-direction:column;gap:9px;margin-bottom:26px;}
+  .card{
+    display:flex;align-items:center;gap:11px;background:var(--surface);
+    border:1px solid var(--hair);border-radius:12px;padding:11px 13px;transition:opacity .15s;
+  }
+  .card.off{opacity:.5;}
+  .card .name{flex:1;min-width:0;}
+  .card .name .nm{font-size:14px;font-weight:600;}
+  .card .name .det{font-size:11.5px;color:var(--muted);margin-top:1px;}
+  .card .amt{text-align:right;margin-right:4px;min-width:0;}
+  .card .amt .g{font-size:15px;font-weight:700;}
+  .card .amt .sp{font-size:11px;color:var(--muted);white-space:nowrap;}
+  .card input{width:50px;text-align:center;font-size:15px;font-weight:600;border:1px solid var(--hair);border-radius:9px;padding:7px 2px;font-family:inherit;outline:none;color:var(--ink);background:var(--bg);}
+  .card input:focus{border-color:var(--salt);}
+
+  .note{font-size:11.5px;color:var(--muted);line-height:1.65;margin:0 2px;padding-top:4px;border-top:1px solid var(--hair);padding-top:14px;}
+  .note b{color:var(--ink);font-weight:600;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Logical cooking</div>
+    <h1>ロジカル調味料計算</h1>
+    <p class="sub">材料の重さから塩分・甘味を逆算</p>
+  </header>
+
+  <div class="field">
+    <label for="weight">材料の総重量 (g)</label>
+    <input type="number" id="weight" value="300" min="0" step="10" inputmode="numeric" />
+  </div>
+
+  <div class="sliders">
+    <div class="slider-box">
+      <div class="slider-head"><label style="margin:0;">塩分</label><span id="pct-out">0.6%</span></div>
+      <input type="range" id="pct" min="0" max="1.2" value="0.6" step="0.1" />
+    </div>
+    <div class="slider-box">
+      <div class="slider-head"><label style="margin:0;">甘味</label><span id="spct-out">2.0%</span></div>
+      <input type="range" id="spct" min="0" max="6" value="2" step="0.5" />
+    </div>
+  </div>
+
+  <div class="presets">
+    <button data-p="0.6">標準 0.6%</button>
+    <button data-p="0.8">濃いめ 0.8%</button>
+    <button data-p="1.0">汁物 1.0%</button>
+  </div>
+
+  <div class="totals">
+    <div class="total salt"><div class="k">塩分量 合計</div><div class="v" id="salt-out">1.8 g</div></div>
+    <div class="total sweet"><div class="k">甘味量 合計</div><div class="v" id="sweet-out">6.0 g</div></div>
+  </div>
+
+  <div class="group-title"><h2>塩分の調味料</h2><span class="hint">比率で配分</span></div>
+  <div class="cards" id="salt-cards"></div>
+
+  <div class="group-title"><h2>甘味の調味料</h2><span class="hint">砂糖換算・比率で配分</span></div>
+  <div class="cards" id="sweet-cards"></div>
+
+  <p class="note">
+    塩分は<b>材料重量 × 塩分%</b>、甘味は<b>砂糖換算%</b>で計算。各調味料の右の数字が配分比率（相対値）です。みりんは糖分約43%なので砂糖の約2.3倍量、味ぽんなど製品差が大きいものはラベルの食塩相当量で調整を。
+  </p>
+</div>
+
+<script>
+const saltItems=[
+  {name:"塩",saltPct:99,gPerTsp:6,ratio:1},
+  {name:"うす口醤油",saltPct:16,gPerTsp:6,ratio:0},
+  {name:"こいくち醤油",saltPct:14.5,gPerTsp:6,ratio:0},
+  {name:"味噌",saltPct:12,gPerTsp:6,ratio:0},
+  {name:"塩麹",saltPct:13,gPerTsp:6,ratio:0},
+  {name:"味ぽん",saltPct:7.5,gPerTsp:6,ratio:0},
+];
+const sweetItems=[
+  {name:"砂糖",sugarPct:100,gPerTsp:3,ratio:1},
+  {name:"みりん",sugarPct:43,gPerTsp:6,ratio:0},
+  {name:"はちみつ",sugarPct:80,gPerTsp:7,ratio:0},
+];
+const $=id=>document.getElementById(id);
+const weightEl=$("weight"),pctEl=$("pct"),spctEl=$("spct");
+
+function spoonStr(g,gPerTsp){
+  const tsp=g/gPerTsp;
+  if(tsp<=0)return "—";
+  if(tsp>=3)return "大さじ"+(tsp/3).toFixed(1)+" / 小さじ"+tsp.toFixed(1);
+  return "小さじ"+tsp.toFixed(1);
+}
+function renderGroup(items,container,total,key){
+  const tot=items.reduce((a,s)=>a+(s.ratio||0),0);
+  container.innerHTML="";
+  items.forEach((s,i)=>{
+    const share=tot>0?s.ratio/tot:0;
+    const need=total*share;
+    const conc=s[key];
+    const grams=conc>0?need*100/conc:0;
+    const active=s.ratio>0;
+    const card=document.createElement("div");
+    card.className="card"+(active?"":" off");
+    card.innerHTML=
+      '<div class="name"><div class="nm">'+s.name+'</div>'+
+      '<div class="det">'+(active?spoonStr(grams,s.gPerTsp):(key==="saltPct"?"塩分":"糖分")+conc+"%")+'</div></div>'+
+      '<div class="amt"><div class="g">'+(active?grams.toFixed(1)+" g":"—")+'</div></div>'+
+      '<input type="number" min="0" step="1" value="'+s.ratio+'" data-i="'+i+'" inputmode="numeric" aria-label="'+s.name+'の比率" />';
+    container.appendChild(card);
+  });
+  container.querySelectorAll("input").forEach(inp=>{
+    inp.addEventListener("input",e=>{items[e.target.dataset.i].ratio=parseFloat(e.target.value)||0;render();});
+  });
+}
+function render(){
+  const w=parseFloat(weightEl.value)||0;
+  const pct=parseFloat(pctEl.value),spct=parseFloat(spctEl.value);
+  $("pct-out").textContent=pct.toFixed(1)+"%";
+  $("spct-out").textContent=spct.toFixed(1)+"%";
+  const salt=w*pct/100,sweet=w*spct/100;
+  $("salt-out").textContent=salt.toFixed(1)+" g";
+  $("sweet-out").textContent=sweet.toFixed(1)+" g";
+  renderGroup(saltItems,$("salt-cards"),salt,"saltPct");
+  renderGroup(sweetItems,$("sweet-cards"),sweet,"sugarPct");
+}
+weightEl.addEventListener("input",render);
+pctEl.addEventListener("input",render);
+spctEl.addEventListener("input",render);
+$$=document.querySelectorAll(".presets button").forEach(b=>{
+  b.addEventListener("click",()=>{pctEl.value=b.dataset.p;render();});
+});
+render();
+
+</script>
+</body>
+</html>
